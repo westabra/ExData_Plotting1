@@ -1,0 +1,13 @@
+setwd("~/Coursera/Exploratory Data Analysis")
+household_power_consumption<- read.table(unz("exdata_data_household_power_consumption.zip", "household_power_consumption.txt"), header=T, quote="\"", sep=";",na.strings = "?")
+memory_Roughly<-nrow(household_power_consumption)*ncol(household_power_consumption)*8
+memory_Roughly<-memory_Roughly/2^20
+memory_Roughly<-paste(round(memory_Roughly,2), "Mb",sep = " ")
+memory_Roughly
+household_power_consumption$Convert <- strptime(paste(household_power_consumption$Date, household_power_consumption$Time), "%d/%m/%Y %H:%M:%S")
+household_power_consumption$Date <- as.Date(household_power_consumption$Date, "%d/%m/%Y")
+class(household_power_consumption$Date)
+Selected_household_temp <- subset(household_power_consumption, Date >= as.Date("2007-02-15") & Date <= as.Date("2007-02-16"))
+png(file="plot1.png", width=480, height=480)
+hist(Selected_household_temp$Global_active_power, main="Global Active Power", col="red",xlab="Global active power (kilowatts)")
+dev.off()
